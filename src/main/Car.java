@@ -8,12 +8,12 @@ public class Car extends Sprite implements Runnable{
   private int direction;
   private int speed;
 
-  public Car(int x, int y,String path, int direction, int speed){
+  public Car(int x, int y, int direction, int speed){
     this.x = x;
     this.y = y;
     this.direction = direction;
     this.speed = speed;
-    ImageIcon ii = new ImageIcon(path);
+    ImageIcon ii = new ImageIcon(getClass().getResource("../imagens/carro-1.png"));
     image = ii.getImage();
     i_width = image.getWidth(null);
     i_height = image.getHeight(null);
@@ -44,9 +44,11 @@ public class Car extends Sprite implements Runnable{
   }
   public void move(){
     int aux = x + (speed*direction) ;
-    if((aux <= 0 && direction == -1) || aux>= 1080 && direction == 1 ){
+    if((aux <= 0 && direction == -1)){
       this.x = posInitial;
-    }else{
+    }else if(aux > Utils.WIDTH && direction == 1){
+      this.x = 0;
+    } else {
       this.x = aux;
     }
     

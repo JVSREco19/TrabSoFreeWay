@@ -8,13 +8,13 @@ public class Player extends Sprite {
   
   public int dy;
   public int speed;
-  public int points;
-  public Player(){
-    ImageIcon ii = new ImageIcon("src/imagens/Personagem-p1.png");
+  public int points=0;
+  public Player(int speed){
+    this.speed = speed;
+    ImageIcon ii = new ImageIcon(getClass().getResource("../imagens/p1.png"));
     image = ii.getImage();
     i_width = image.getWidth(null);
     i_height = image.getHeight(null);
-
     resetState();
   }
 
