@@ -1,15 +1,14 @@
 package main;
 import javax.swing.ImageIcon;
 
-public class Car extends Sprite {
+public class Car extends Sprite implements Runnable{
 
-  private int posInitial;
-  private int ID;
+  private int posInitial = Utils.INIT_CAR_X;
+  
   private int direction;
   private int speed;
 
-  public Car(int x, int y,String path,int ID, int direction, int speed){
-    this.ID = ID;
+  public Car(int x, int y,String path, int direction, int speed){
     this.x = x;
     this.y = y;
     this.direction = direction;
@@ -26,14 +25,6 @@ public class Car extends Sprite {
 
   public void setPosInitial(int posInitial) {
     this.posInitial = posInitial;
-  }
-
-  public int getID() {
-    return ID;
-  }
-
-  public void setID(int iD) {
-    this.ID = iD;
   }
 
   public int getSpeed() {
@@ -58,6 +49,12 @@ public class Car extends Sprite {
     }else{
       this.x = aux;
     }
+    
+  }
+
+  @Override
+  public void run() {
+    move();
     
   }
   
