@@ -53,10 +53,14 @@ public class Car extends Sprite implements Runnable{
     }
     
   }
+  
 
   @Override
   public void run() {
-    move();
+    while(true){
+      move();
+    }
+    
     
   }
   

@@ -3,8 +3,6 @@ package main;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,15 +14,13 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class Board extends JPanel {
-
-  private int playerLives = 3;
+public class Board extends JPanel implements Runnable{
   
-  private Timer timer;
-  private Player player;
+  
+  private Player player1,player2;
   private Car[] cars;
   private boolean inGame = true;
-  private String message = "VOCÊ É PODRE, SEU IMUNDO";
+  //private String message = "F";
 
   public Board() {
     initBoard();
@@ -36,8 +32,7 @@ public class Board extends JPanel {
     setFocusable(true);
     cars = new Car[Utils.NUMBER_OF_CARS];
     setDoubleBuffered(true);
-    timer = new Timer();
-    timer.scheduleAtFixedRate(new ScheduleTask(), Utils.DELAY, Utils.PERIOD);
+    
   }
 
   public void addNotify() {
@@ -46,7 +41,8 @@ public class Board extends JPanel {
   }
 
   private void gameInit() {
-    player = new Player(2);
+    player1 = new Player(1,1);
+    player2 = new Player(1,2);
     int carSpeed = 1;
 
     for (int i = 0; i < Utils.NUMBER_OF_CARS; i++) {
@@ -76,6 +72,18 @@ public class Board extends JPanel {
     }
   }
 
+  public Player getPlayer1(){
+    return this.player1;
+  }
+  
+  public Player getPlayer2() {
+    return this.player2;
+  }
+  
+  public Car[] getCars() {
+    return this.cars;
+  }
+
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
@@ -95,7 +103,9 @@ public class Board extends JPanel {
   }
 
   private void drawObjects(Graphics2D g2d) {
-    g2d.drawImage(player.getImage(), player.getX(), player.getY(), player.getI_width(), player.getI_height(), this);
+    g2d.drawImage(player1.getImage(), player1.getX(), player1.getY(), player1.getI_width(), player1.getI_height(), this);
+    g2d.drawImage(player2.getImage(), player2.getX(), player2.getY(), player2.getI_width(), player2.getI_height(),
+        this);
     for (int i = 0; i < Utils.NUMBER_OF_CARS; i++) {
      g2d.drawImage(cars[i].getImage(), cars[i].getX(), cars[i].getY(), cars[i].getI_width(), cars[i].getI_height(),
           this);
@@ -107,42 +117,60 @@ public class Board extends JPanel {
     Font font = new Font("Verdana",Font.BOLD,18);
     g2d.setColor(Color.BLACK);
     g2d.setFont(font);
-    g2d.drawString(message, Utils.WIDTH/2, Utils.HEIGHT/2);
+    ImageIcon ii = new ImageIcon(getClass().getResource("../imagens/wasted.png"));
+    g2d.drawImage(ii.getImage(), 0, 0, 1080, 640, this);
+  }
+
+  @Override
+  public void run() {
+    while(inGame==true){
+      player1.move();
+      player2.move();
+    for (int i = 0; i < Utils.NUMBER_OF_CARS; i++) {
+      cars[i].move();
+    }
+    checkCollision(player1);
+    checkCollision(player2);
+    repaint();
+    try {
+      Thread.sleep(10);
+    } catch (Exception e) {
+      //TODO: handle exception
+    }
+    if(inGame == false){
+      //Menu do jogo com opções de jogar novamente
+    }
+  }
+    
   }
 
   private class TAdapter extends KeyAdapter{
     @Override
     public void keyPressed(KeyEvent e) {
-        player.keyPressed(e);
+        player1.keyPressed(e);
+        player2.keyPressed(e);
       }
     
     @Override
     public void keyReleased(KeyEvent e) {
-        player.keyReleased(e);
+        player1.keyReleased(e);
+        player2.keyReleased(e);
       }
+      
 
   }
 
-  private class ScheduleTask extends TimerTask{
-    @Override
-    public void run(){
-      player.move();
-      for(int i =0; i< Utils.NUMBER_OF_CARS;i++){
-        cars[i].move();
-      }
-      checkCollision();
-      repaint();
-    }
+  
     public void stopGame(){
       inGame = false;
-      timer.cancel();
+      
     }
 
-    private void checkCollision(){
+    private void checkCollision(Player player){
       for(int i = 0;i<Utils.NUMBER_OF_CARS;i++){
         if(player.getRect().intersects(cars[i].getRect())){
-          playerLives--;
-          if(playerLives==0){
+          player.playerLives--;
+          if(player.playerLives==0){
             stopGame();
           }
           player.setY(Utils.INIT_PLAYER_Y);
@@ -152,4 +180,4 @@ public class Board extends JPanel {
     }
   }
 
-}
+

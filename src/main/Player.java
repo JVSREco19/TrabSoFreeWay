@@ -8,9 +8,12 @@ public class Player extends Sprite {
   
   public int dy;
   public int speed;
+  public int playerCode;
   public int points=0;
-  public Player(int speed){
+  public int playerLives = Utils.LIFE;
+  public Player(int speed,int playerCode){
     this.speed = speed;
+    this.playerCode = playerCode;
     ImageIcon ii = new ImageIcon(getClass().getResource("../imagens/p1.png"));
     image = ii.getImage();
     i_width = image.getWidth(null);
@@ -45,26 +48,49 @@ public class Player extends Sprite {
 
   public void keyPressed(KeyEvent e){
     int key = e.getKeyCode();
-    if (key == KeyEvent.VK_UP){
+    if(playerCode == 1){
+      if (key == KeyEvent.VK_UP){
       dy = -1;
     }else
     if(key == KeyEvent.VK_DOWN){
       dy = 1;
     }
+    }else if(playerCode ==2){
+      if (key == KeyEvent.VK_W) {
+        dy = -1;
+      } else if (key == KeyEvent.VK_S) {
+        dy = 1;
+      }
+    }
+    
   }
 
   public void keyReleased(KeyEvent e) {
     int key = e.getKeyCode();
-    if (key == KeyEvent.VK_UP) {
-      dy = 0;
-    } else if (key == KeyEvent.VK_DOWN) {
-      dy = 0;
+    if (playerCode == 1) {
+      if (key == KeyEvent.VK_UP) {
+        dy = 0;
+      } else if (key == KeyEvent.VK_DOWN) {
+        dy = 0;
+      }
+    } else if (playerCode == 2) {
+      if (key == KeyEvent.VK_W) {
+        dy = 0;
+      } else if (key == KeyEvent.VK_S) {
+        dy = 0;
+      }
     }
+
   }
 
   public void resetState() {
-    y = Utils.INIT_PLAYER_Y;
-    x = Utils.INIT_PLAYER_X;
+    if(playerCode== 1){
+      y = Utils.INIT_PLAYER_Y;
+      x = Utils.INIT_PLAYER_X;
+    }else if(playerCode==2){
+      y = Utils.INIT_PLAYER_Y;
+      x = Utils.INIT_PLAYER_X + 200;
+    }
 
   }
 
