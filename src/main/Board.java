@@ -2,13 +2,18 @@ package main;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Image;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -139,6 +144,20 @@ public class Board extends JPanel implements Runnable {
       g2d.drawImage(cars[i].getImage(), cars[i].getX(), cars[i].getY(), cars[i].getI_width(), cars[i].getI_height(),
           this);
     }
+
+  }
+  public void playMusic(String path){
+
+      File musicFile;
+      try {
+        musicFile = new File(path);
+        AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInput);
+        clip.start();
+      } catch (Exception e) {
+        System.out.println(e);
+      }
 
   }
 
