@@ -3,8 +3,6 @@ package main;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -208,6 +206,12 @@ public class Board extends JPanel implements Runnable {
   }
 
   public void stopGame() {
+    player1.setState(false);
+    player2.setState(false);
+    for(int i = 0; i<Utils.NUMBER_OF_CARS; i++){
+      cars[i].setState(false);
+    }
+    
     inGame = false;
   }
 

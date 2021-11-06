@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 public class Car extends Sprite implements Runnable{
 
   private int posInitial = Utils.INIT_CAR_X;
-  
+  public boolean inGame = true;
   private int direction;
   private int speed;
 
@@ -35,6 +35,10 @@ public class Car extends Sprite implements Runnable{
     this.speed = speed;
   }
 
+  public void setState(Boolean inGame) {
+    this.inGame = inGame;
+  }
+
   public int getDirection() {
     return direction;
   }
@@ -59,7 +63,7 @@ public class Car extends Sprite implements Runnable{
 
   @Override
   public void run() {
-    while(true){
+    while(inGame){
       move();
 
       try {

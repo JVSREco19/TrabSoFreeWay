@@ -12,6 +12,7 @@ public class Player extends Sprite implements Runnable{
   public int points=0;
   public boolean walking = false;
   public int playerLives = Utils.LIFE;
+  public boolean inGame = true;
   
   
   public Player(int speed,int playerCode){
@@ -24,6 +25,10 @@ public class Player extends Sprite implements Runnable{
     i_width = 42;
     i_height = 24;
     resetState();
+  }
+
+  public void setState(Boolean inGame) {
+    this.inGame = inGame;
   }
 
   public int getPoints() {
@@ -109,7 +114,7 @@ public class Player extends Sprite implements Runnable{
 
   @Override
   public void run() {
-    while(true){
+    while(inGame){
       move();
       try {
         Thread.sleep(10);
