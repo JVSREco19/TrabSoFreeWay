@@ -8,15 +8,15 @@ public class Car extends Sprite implements Runnable{
   private int direction;
   private int speed;
 
-  public Car(int x, int y, int direction, int speed){
+  public Car(int x, int y, int direction, int speed,String path){
     this.x = x;
     this.y = y;
     this.direction = direction;
     this.speed = speed;
-    ImageIcon ii = new ImageIcon(getClass().getResource("../imagens/carro-1.png"));
+    ImageIcon ii = new ImageIcon(getClass().getResource(path));
     image = ii.getImage();
-    i_width = image.getWidth(null);
-    i_height = image.getHeight(null);
+    i_width = Utils.CAR_WIDTH;
+    i_height = Utils.CAR_HEIGHT;
   }
 
   public int getPosInitial() {
@@ -43,14 +43,16 @@ public class Car extends Sprite implements Runnable{
     this.direction = direct;
   }
   public void move(){
+    
     int aux = x + (speed*direction) ;
-    if((aux <= 0 && direction == -1)){
-      this.x = posInitial;
-    }else if(aux > Utils.WIDTH && direction == 1){
-      this.x = 0;
-    } else {
-      this.x = aux;
-    }
+    this.x = aux;
+    if((aux < -64 && direction == -1)){
+      this.x = posInitial + 64;
+    }else if(aux > Utils.WIDTH+64 && direction == 1){
+      this.x = -64;
+    } 
+      
+    
     
   }
   
@@ -59,6 +61,13 @@ public class Car extends Sprite implements Runnable{
   public void run() {
     while(true){
       move();
+
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
     
     
