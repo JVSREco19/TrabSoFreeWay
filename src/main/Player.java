@@ -48,7 +48,7 @@ public class Player extends Sprite implements Runnable {
   }
 
   private void resetMatPos() {
-    for (int i = 0; i < Utils.PLAYER_WIDTH; i++) {
+    for (int i = 0; i < Utils.CAR_WIDTH; i++) {
       for (int j = 0; j < Utils.HEIGHT; j++) {
         matPos[i][j] = 0;
       }
@@ -58,21 +58,30 @@ public class Player extends Sprite implements Runnable {
 
     if(y>0){
       for (int i = 0; i < 42; i++) {
-      if (matPos[i][y] == 1) {
+      if (matPos[i][y-1] == 1||  matPos[i][(y+42)] == 1 ) {
         resetMatPos();
 
         y = Utils.INIT_PLAYER_Y;
+        System.out.println("colisão player");
         break;
       } else {
-        matPos[i][y] = 2;
+    
+          matPos[i][y] = 2;
+        
       }
 
     }
     }
     if(y<560){
       for (int i = 0; i < 42; i++) {
-         matPos[i][y+24] = 2;
-         matPos[i][y + 25] = 0;
+         matPos[i][y+23] = 2;
+         if(y>0){
+           matPos[i][y-1] = 0;
+         }
+          
+          matPos[i][y +24] = 0;
+         
+         
 
       }
     }
@@ -109,6 +118,7 @@ public class Player extends Sprite implements Runnable {
       } else if (y > Utils.INIT_PLAYER_Y) {
         y = Utils.INIT_PLAYER_Y;
       }
+      
 
       
     } catch (Exception e) {

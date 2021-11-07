@@ -56,16 +56,25 @@ public class Car extends Sprite implements Runnable {
     return direction;
   }
 
+  private void resetMatPos(int[][] matPos) {
+    for (int i = 0; i < Utils.CAR_WIDTH; i++) {
+      for (int j = 0; j < (this.y + 90); j++) {
+        matPos[i][j] = 0;
+      }
+    }
+  }
   private void moveMatrix() {
     try {
       if (direction == -1) {// movendo pra esquerda
         if (x >= 340 && x < 388) { // caso do P1 pra adicionar pos
-          if (matPosP1[((340 - x) * -1)][y] != 2 && matPosP1[((340 - x) * -1)][y + 48] != 2   ) {
+          if (matPosP1[((340 - x) * -1)][y] != 2 && matPosP1[((340 - x) * -1)][y + 49] != 2   ) {
             for (int i = 0; i < 48; i++) {
               matPosP1[(340 - x) * -1][y + i] = 1;
             }
           } else {
             p1.setY(Utils.INIT_PLAYER_Y);
+            resetMatPos(matPosP1);
+            System.out.println("Colisao carro");
             // colisao
           }
 
@@ -77,6 +86,8 @@ public class Car extends Sprite implements Runnable {
             }
           } else {
             p2.setY(Utils.INIT_PLAYER_Y);
+            resetMatPos(matPosP2);
+            System.out.println("Colisao carro");
           }
 
         } else if (x < 340 && x >= 292) {// caso do P1 pra remover pos
@@ -92,37 +103,41 @@ public class Car extends Sprite implements Runnable {
           }
         }
       } else {// movendo pra direita
-        if (x >= 340 && x < 388) { // caso do P1 pra adicionar pos
-          if (matPosP1[(340 - x)*-1 ][y] != 2 && matPosP1[(340 - x)*-1 ][y + 48] != 2) {
+        if (x >= 292 && x < 340) { // caso do P1 pra adicionar pos
+          if (matPosP1[(292 - x)*-1 ][y] != 2 && matPosP1[(292 - x)*-1 ][y + 48] != 2) {
             for (int i = 0; i < 48; i++) {
-              matPosP1[(340 - x)*-1 ][y + i] = 1;
+              matPosP1[(292 - x)*-1 ][y + i] = 1;
             }
           } else {
             // colisao
             p1.setY(Utils.INIT_PLAYER_Y);
+            resetMatPos(matPosP1);
+            System.out.println("Colisao carro");
           }
 
-        } else if (x >= 640 && x < 688) { // caso do P2 pra adicionar pos
+        } else if (x >= 592 && x < 640) { // caso do P2 pra adicionar pos
 
-          if (matPosP2[(640 - x)*-1 ][y] != 2 && matPosP2[(640 - x)*-1 ][y + 48] != 2) {
+          if (matPosP2[(592 - x)*-1 ][y] != 2 && matPosP2[(592 - x)*-1 ][y + 48] != 2) {
             for (int i = 0; i < 48; i++) {
-              matPosP2[(640 - x)*-1 ][y + i] = 1;
+              matPosP2[(592 - x)*-1 ][y + i] = 1;
             }
           } else {
             // colisao
             p2.setY(Utils.INIT_PLAYER_Y);
+            resetMatPos(matPosP2);
+            System.out.println("Colisao carro");
           }
 
-        } else if (x >= 388 && x < 436) {// caso do P1 pra remover pos
+        } else if (x >= 340 && x < 388) {// caso do P1 pra remover pos
 
           for (int i = 0; i < 48; i++) {
-            matPosP1[(388 - x) * -1][y + i] = 0;
+            matPosP1[(340 - x) * -1][y + i] = 0;
           }
 
-        } else if (x >= 688 && x < 736) {// caso do P2 pra remover pos
+        } else if (x >= 640 && x < 688) {// caso do P2 pra remover pos
 
           for (int i = 0; i < 48; i++) {
-            matPosP2[((688 - x) * -1)][y + i] = 0;
+            matPosP2[((640 - x) * -1)][y + i] = 0;
           }
         }
       }
@@ -140,7 +155,7 @@ public class Car extends Sprite implements Runnable {
   public void move() {
     try {
       semaphore.acquire();
-      moveMatrix();
+      
       int aux = x + (speed * direction);
       this.x = aux;
       if ((aux < -64 && direction == -1)) {
@@ -148,13 +163,14 @@ public class Car extends Sprite implements Runnable {
       } else if (aux > Utils.WIDTH + 64 && direction == 1) {
         this.x = -64;
       }
+      moveMatrix();
       
     } catch (Exception e) {
       System.out.println(e);
     }finally{
       semaphore.release();
     }
-
+    
   }
 
   @Override
