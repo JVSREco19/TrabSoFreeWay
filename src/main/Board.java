@@ -241,16 +241,4 @@ public class Board extends JPanel implements Runnable {
     inGame = false;
   }
 
-  /*private void checkCollision(Player player) {
-    for (int i = 0; i < Utils.NUMBER_OF_CARS; i++) {
-      if (player.getRect().intersects(cars[i].getRect())) {
-        // player.playerLives--;
-        if (player.playerLives == 0) {
-          stopGame();
-        }
-        player.setY(Utils.INIT_PLAYER_Y);
-      }
-    }
-
-  }*/
 }

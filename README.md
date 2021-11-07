@@ -1,18 +1,16 @@
-## Getting Started
+## EXECUÇÂO DO PROGRAMA
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Executar o arquivo freeway.java que possui a main e ele chamara as demais classes e funções
 
-## Folder Structure
+## Comandos do jogo
+Player 1: UP_ARROW  se move para cima
+	  DOWN_ARROW se move para baixo
 
-The workspace contains two folders by default, where:
+Player 2: W  se move para cima
+	  S se move para baixo
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+O jogo não tem tempo para finalizar e nem numero de vidas, apesar de ser possivel a implementação, a pontuação vai até 99 e a colisão foi feita através de threads e matriz.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Autores: João Victor Silveira Ribeiro
+	João Pedro Pereira Magalhães
+	Arthur Henrique Caetano Santos
